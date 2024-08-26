@@ -14,8 +14,7 @@ on:
     branches: [ "main" ]
 
 env:
-  DOCKER_IMAGE_NAME:
-    CONTAINER_NAME: mochat_app
+  CONTAINER_NAME: mochat_app
 
 jobs:
   build-and-push-docker:

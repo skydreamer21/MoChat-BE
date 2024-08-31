@@ -70,18 +70,11 @@ jobs:
           username: ${{ secrets.EC2_SSH_USER }}
           key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
           script: |
-            CONTAINER_ID=$(docker ps -a -q --filter "name=${{ env.CONTAINER_NAME }}")
+            echo "${{ secrets.MOCHAT_ENV }}" > ${{ secrets.MOCHAT_ENV_PATH }}
             
-            if [ ! -z "$CONTAINER_ID" ]; then
-              echo $CONTAINER_ID
-              docker stop $CONTAINER_ID
-              docker rm $CONTAINER_ID
-            else  
-              echo "CONTAINER_ID NOT FOUND"
-            fi
-            
+            docker compose -f ${{ secrets.MOCHAT_COMPOSE }} down
             docker pull ${{ secrets.DOCKER_IMAGE_NAME }}:latest
-            docker run --cap-add=SYS_PTRACE --name ${{ env.CONTAINER_NAME }} -d -p 8080:8080 ${{ secrets.DOCKER_IMAGE_NAME }}:latest
+            docker compose -f ${{ secrets.MOCHAT_COMPOSE }} up -d
 
   dependency-submission:
     runs-on: ubuntu-latest

@@ -18,6 +18,6 @@ public class SampleController {
     public String createSampleData() {
         log.info("createSampleData");
         sampleSpringDataRepository.save(SampleEntity.getSample());
-        return "Success";
+        return "Success!";
     }
 }

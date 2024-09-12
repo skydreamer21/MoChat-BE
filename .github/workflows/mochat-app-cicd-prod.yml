@@ -9,13 +9,15 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ "main", "develop" ]
+    branches: [ "main" ]
   pull_request:
+    branches:
+      - main
     types:
       - closed
 
 env:
-  CONTAINER_NAME: mochat_app
+  CONTAINER_NAME: mochat-prod
 
 jobs:
   build-and-push-docker:

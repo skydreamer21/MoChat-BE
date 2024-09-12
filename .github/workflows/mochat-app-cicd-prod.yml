@@ -16,9 +16,6 @@ on:
     types:
       - closed
 
-env:
-  CONTAINER_NAME: mochat-prod
-
 jobs:
   build-and-push-docker:
     if: github.event.pull_request.merged == true

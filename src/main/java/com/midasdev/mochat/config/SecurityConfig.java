@@ -30,7 +30,11 @@ public class SecurityConfig {
         log.info("SecurityFilterChain -> OidcLoginFilterChain");
         return httpSecurity
                 .authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
-                .oauth2Login(withDefaults())
+                .oauth2Login(oauth2 -> oauth2
+                        .authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint
+                                .baseUri("/security/oauth2/authorization"))
+//                        .userInfoEndpoint(config -> config .oidcUserService())
+                )
                 .build();
     }
 

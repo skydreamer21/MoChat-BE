@@ -1,7 +1,5 @@
 package com.midasdev.mochat.config.security;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 import io.micrometer.observation.ObservationRegistry;
 import io.micrometer.observation.ObservationTextPublisher;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Slf4j
@@ -21,6 +20,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+
+    public final AuthenticationSuccessHandler authenticationSuccessHandler;
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
@@ -40,6 +41,7 @@ public class SecurityConfig {
                         .authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint
                                 .baseUri("/security/oauth2/authorization"))
                         .userInfoEndpoint(config -> config.oidcUserService(oidcUserService()))
+                        .successHandler(authenticationSuccessHandler)
                 )
                 .build();
     }

@@ -40,3 +40,16 @@ management:
     web:
       exposure:
         include: health, info
+
+# jwt 토큰 정보
+jwt:
+  auth-token-expired-second: ${AUTH_TOKEN_EXPIRED_SECOND}
+  access-token-expired-second: ${ACCESS_TOKEN_EXPIRED_SECOND}
+  refresh-token-expired-second: ${REFRESH_TOKEN_EXPIRED_SECOND}
+  secret-key: ${JWT_SECRET_KEY}
+
+# client 정보
+client:
+  url: ${CLIENT_URL}
+  redirect:
+    auth-success: ${CLIENT_REDIRECT_AUTH_SUCCESS_PATH}

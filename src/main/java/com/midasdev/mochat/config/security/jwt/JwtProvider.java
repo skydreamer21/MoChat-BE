@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Component;
 
 /**
@@ -22,7 +23,14 @@ public class JwtProvider {
 
     private final JwtProperty jwtProperty;
 
-    public String createAuthToken(OidcUser oidcUser) {
+    public String createAuthToken(OAuth2User oAuth2User) {
+        if (oAuth2User instanceof OidcUser) {
+            return creatAuthTokenForOidcUser((OidcUser) oAuth2User);
+        }
+        throw new IllegalArgumentException("Unknown oauth2User Type");
+    }
+
+    public String creatAuthTokenForOidcUser(OidcUser oidcUser) {
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("idToken", oidcUser.getIdToken().getTokenValue());
         Claims claims = new DefaultClaims(attributes);
@@ -34,11 +42,10 @@ public class JwtProvider {
         return Jwts.builder()
                    .setSubject(subject)
                    .setClaims(claims)
-                   .signWith(jwtProperty.getKey(), SignatureAlgorithm.ES512)
+                   .signWith(jwtProperty.getKey(), SignatureAlgorithm.HS512)
                    .setExpiration(Date.from(expiredTime))
                    .compact();
     }
-
 
 
 }

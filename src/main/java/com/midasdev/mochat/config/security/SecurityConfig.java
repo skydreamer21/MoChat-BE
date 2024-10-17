@@ -32,6 +32,9 @@ public class SecurityConfig {
     @Value("${client.url}")
     private String clientUrl;
 
+    @Value("${security.permitted-urls}")
+    private String[] permitUrlPatterns;
+
     @Bean
     public SecurityFilterChain oidcLoginFilterChain(HttpSecurity httpSecurity) throws Exception {
         log.info("SecurityFilterChain -> OidcLoginFilterChain");
@@ -41,7 +44,7 @@ public class SecurityConfig {
                 .securityMatcher("/api/**")
                 .authorizeHttpRequests(
                         request ->
-                                request.requestMatchers("/api/v1/sample/**")
+                                request.requestMatchers(permitUrlPatterns)
                                        .permitAll()
                                        .anyRequest().authenticated())
                 .csrf(CsrfConfigurer::disable)

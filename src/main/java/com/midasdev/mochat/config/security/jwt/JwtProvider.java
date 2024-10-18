@@ -33,6 +33,7 @@ public class JwtProvider {
     public String creatAuthTokenForOidcUser(OidcUser oidcUser) {
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("idToken", oidcUser.getIdToken().getTokenValue());
+        attributes.put("type", TokenType.AUTH);
         Claims claims = new DefaultClaims(attributes);
         return generateToken(oidcUser.getSubject(), claims, jwtProperty.getAccessTokenExpiredSecond());
     }

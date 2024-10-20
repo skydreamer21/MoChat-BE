@@ -29,7 +29,7 @@ public class AuthController {
     public ResponseEntity<AuthorizationToken> generateToken(@RequestBody @Valid AuthRequest authRequest) {
 
         // 1. authtoken 검증 -> idtoken 검증 -> 유저 정보 반환
-        TokenRequestUser tokenRequestUser = authService.validateToken(authRequest);
+        TokenRequestUser tokenRequestUser = authService.extractUserInfo(authRequest);
 
         // 2. 회원가입 여부 (데이터 있는지)
         Optional<Member> memberOptional = memberService.findMemberByOauthAccount();

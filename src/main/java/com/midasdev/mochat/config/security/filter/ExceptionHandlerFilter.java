@@ -26,7 +26,7 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
             ExceptionResponseWriter.writeException(response, e);
         } catch (Exception e) {
             log.error("before Controller Exception occur!", e);
-            ExceptionResponseWriter.writeException(response, ApplicationExceptionType.BEFORE_CONTROLLER_EXCEPTION, e.getMessage());
+            ExceptionResponseWriter.writeException(response, ApplicationExceptionType.FILTER_OR_API_EXCEPTION, e.getMessage());
         }
     }
 
